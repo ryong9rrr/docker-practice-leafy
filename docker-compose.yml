@@ -1,0 +1,31 @@
+version: '3'
+services:
+  leafy-postgresql:
+    build: ./leafy-postgresql
+    image: leafy-postgresql
+    volumes:
+      - mydata://var/lib/postgresql/data
+    restart: always
+
+  leafy-backend:
+    build: ./leafy-backend
+    image: leafy-backend
+    environment:
+      - DB_URL=leafy-postgresql
+    depends_on:
+      - leafy-postgresql
+    restart: on-failure
+
+  leafy-frontend:
+    build: ./leafy-frontend
+    image: leafy-frontend
+    environment:
+      - BACKEND_HOST=leafy-backend
+    ports:
+      - 80:80
+    depends_on:
+      - leafy-backend
+    restart: on-failure
+
+volumes:
+  mydata:
