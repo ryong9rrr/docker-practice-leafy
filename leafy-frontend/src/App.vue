@@ -1,39 +1,45 @@
 <template>
   <div id="app">
     <div class="welcome-message" v-if="isLoggedIn">
-      <p class="welcome-text">안녕하세요, <span class="user-name">{{ user.name }}</span>님!</p>
-      <p class="description">오늘도 즐거운 식물 관리하세요.</p>
+      <p class="welcome-text">
+        안녕하세요, <span class="user-name">{{ user.name }}</span
+        >님!
+      </p>
+      <p class="description">내일도 즐거운 식물 관리하세요.</p>
     </div>
-    <div class="brand" v-if="isLoggedIn">
-      LEAFY
-    </div>
-    <NavBar v-if="isLoggedIn"></NavBar>    
+    <div class="brand" v-if="isLoggedIn">LEAFY</div>
+    <NavBar v-if="isLoggedIn"></NavBar>
     <div class="router-view-wrapper">
       <router-view></router-view>
     </div>
-    <footer class="footer" v-if="isLoggedIn"> 
+    <footer class="footer" v-if="isLoggedIn">
       <p>&copy; 2023 Leafy. All rights reserved.</p>
     </footer>
-    <BasicPopup :message="popup.message" :status="popup.status" :visible="popup.visible" @close="closePopup" />
+    <BasicPopup
+      :message="popup.message"
+      :status="popup.status"
+      :visible="popup.visible"
+      @close="closePopup"
+    />
   </div>
 </template>
 
 <script>
-import BasicPopup from "@/components/BasicPopup.vue";
-import NavBar from '@/components/NavBar.vue';
-import { mapState } from "vuex";
+import BasicPopup from '@/components/BasicPopup.vue'
+import NavBar from '@/components/NavBar.vue'
+import { mapState } from 'vuex'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     NavBar,
     BasicPopup,
   },
   computed: {
     isLoggedIn() {
-      return !!this.$store.state.user;
+      return !!this.$store.state.user
     },
-    ...mapState(["popup", "user"])
+    ...mapState(['popup', 'user']),
   },
   data() {
     return {
@@ -43,26 +49,26 @@ export default {
         body: '',
         footer: '',
       },
-    };
+    }
   },
   provide() {
     return {
       openModal: this.openModal,
-    };
+    }
   },
   methods: {
-    closePopup() {      
-      this.$store.commit("setPopup", {
+    closePopup() {
+      this.$store.commit('setPopup', {
         ...this.popup,
         visible: false,
-      });
+      })
     },
     openModal(content) {
-      this.modalContent = content;
-      this.showModal = true;
+      this.modalContent = content
+      this.showModal = true
     },
   },
-};
+}
 </script>
 
 <style>
@@ -78,7 +84,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  position: relative; 
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -93,7 +99,7 @@ body {
 .brand {
   font-size: 2.5em;
   font-weight: bold;
-  color: #8FBC8F;
+  color: #8fbc8f;
   padding-top: 30px;
   padding-bottom: 20px;
 }
@@ -123,7 +129,7 @@ body {
 }
 
 .user-name {
-  color: #8FBC8F;
+  color: #8fbc8f;
 }
 
 .description {
@@ -132,7 +138,7 @@ body {
 }
 
 .footer {
-  background-color: #8FBC8F;
+  background-color: #8fbc8f;
   color: white;
   padding: 1rem;
   font-size: 0.9rem;
